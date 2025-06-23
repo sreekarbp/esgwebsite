@@ -313,16 +313,7 @@ export default function EnhancedNavbar() {
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <div className="flex items-center">
-            {/* Animated logo already links to "/" internally */}
-            <div className="relative h-12 w-12 mr-3 flex items-center justify-center">
-              <AnimatedSapAiLogo />
-            </div>
-            {/* Brand text links home */}
-            <Link href="/" className="font-poppins text-xl font-bold text-white hover:text-blue-400">
-              <span className="text-blue-400">ESG</span> Inc
-            </Link>
-          </div>
+          
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-1">

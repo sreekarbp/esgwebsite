@@ -9,14 +9,7 @@ export default function Navbar() {
           <div className="flex items-center">
             <div className="flex-shrink-0">
               {/* Logo image already contains its own <a> via Next/Image */}
-              <Image
-                src="/images/logos/logo-256x256.png"
-                alt="ESG Logo"
-                width={48}
-                height={48}
-                className="mr-2"
-                priority
-              />
+              <Image src="/esg-colored-logo.png" alt="ESG Logo" width={48} height={48} className="mr-2" priority />
             </div>
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">

@@ -7,13 +7,21 @@ import { motion, useAnimation } from "framer-motion"
 import { ArrowRight, ArrowRightCircle, Cpu, Database, Server, GitBranch, Activity } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
+import dynamic from "next/dynamic"
 
+// Dynamically import the Lottie component to avoid SSR issues
+const Lottie = dynamic(() => import("lottie-react"), {
+  ssr: false,
+})
+
+// Updated WorkflowStep type to support both images and Lottie animations
 type WorkflowStep = {
   id: string
   title: string
   description: string
   icon: React.ReactNode
-  image: string
+  mediaType: "image" | "lottie" // New property to specify media type
+  mediaSrc: string // Path to image or Lottie JSON
   aiFeature: string
 }
 
@@ -21,6 +29,8 @@ export default function AIEnhancedWorkflow() {
   const [activeStep, setActiveStep] = useState<string>("data-collection")
   const controls = useAnimation()
   const containerRef = useRef<HTMLDivElement>(null)
+  const [isClient, setIsClient] = useState(false)
+  const [currentStepLottieData, setCurrentStepLottieData] = useState(null) // State for step-specific Lottie data
 
   const workflowSteps: WorkflowStep[] = [
     {
@@ -28,7 +38,8 @@ export default function AIEnhancedWorkflow() {
       title: "Data Collection & Integration",
       description: "Seamlessly gather and integrate data from multiple SAP and non-SAP sources in real-time.",
       icon: <Database className="h-6 w-6" />,
-      image: "/images/workflow/data-collection.jpg",
+      mediaType: "image",
+      mediaSrc: "/images/workflow/data-collection.jpg",
       aiFeature: "AI-powered data validation and anomaly detection ensures data quality from the start.",
     },
     {
@@ -37,7 +48,8 @@ export default function AIEnhancedWorkflow() {
       description:
         "Apply advanced machine learning models to analyze patterns, predict outcomes, and generate insights.",
       icon: <Cpu className="h-6 w-6" />,
-      image: "/images/workflow/ai-processing.jpg",
+      mediaType: "lottie", // Changed to lottie
+      mediaSrc: "/animations/ai-processing-animation.json", // New Lottie path
       aiFeature: "Gen AI models continuously learn from your business data to improve accuracy over time.",
     },
     {
@@ -45,7 +57,8 @@ export default function AIEnhancedWorkflow() {
       title: "Process Optimization",
       description: "Automatically identify bottlenecks and recommend process improvements based on AI insights.",
       icon: <GitBranch className="h-6 w-6" />,
-      image: "/images/workflow/automation.jpg",
+      mediaType: "image",
+      mediaSrc: "/images/workflow/automation.jpg",
       aiFeature: "Intelligent process mining that automatically discovers and visualizes your actual processes.",
     },
     {
@@ -53,7 +66,8 @@ export default function AIEnhancedWorkflow() {
       title: "User Experience Personalization",
       description: "Deliver tailored interfaces and insights based on user roles, preferences, and behavior patterns.",
       icon: <Activity className="h-6 w-6" />,
-      image: "/images/workflow/personalization.jpg",
+      mediaType: "image",
+      mediaSrc: "/images/workflow/personalization.jpg",
       aiFeature: "Dynamic UI adaptation that evolves based on user behavior and interaction patterns.",
     },
     {
@@ -61,10 +75,36 @@ export default function AIEnhancedWorkflow() {
       title: "Intelligent Automation",
       description: "Deploy AI-powered bots and workflows to automate repetitive tasks and complex processes.",
       icon: <Server className="h-6 w-6" />,
-      image: "/images/workflow/lead-enrichment.jpg",
+      mediaType: "image",
+      mediaSrc: "/images/workflow/lead-enrichment.jpg",
       aiFeature: "Self-healing automation flows that adapt to changing business conditions and requirements.",
     },
   ]
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  // Effect to load Lottie animation for the active step
+  useEffect(() => {
+    if (!isClient) return
+
+    const step = workflowSteps.find((s) => s.id === activeStep)
+    if (step && step.mediaType === "lottie" && step.mediaSrc) {
+      const loadStepAnimationData = async () => {
+        try {
+          const data = await import(step.mediaSrc) // Dynamic import for Lottie JSON
+          setCurrentStepLottieData(data.default)
+        } catch (error) {
+          console.error(`Failed to load Lottie animation for step ${step.id}:`, error)
+          setCurrentStepLottieData(null) // Clear on error
+        }
+      }
+      loadStepAnimationData()
+    } else {
+      setCurrentStepLottieData(null) // Clear if not a Lottie step
+    }
+  }, [activeStep, isClient, workflowSteps])
 
   useEffect(() => {
     controls.start({ opacity: 1, y: 0, transition: { duration: 0.5 } })
@@ -104,17 +144,18 @@ export default function AIEnhancedWorkflow() {
               transition={{ duration: 0.5 }}
               className="relative rounded-2xl overflow-hidden border border-gray-700 h-[400px] md:h-[500px]"
             >
-              {currentStep.image && currentStep.image.trim() !== "" ? (
-                <Image
-                  src={currentStep.image || "/placeholder.svg"}
-                  alt={currentStep.title}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
+              {isClient && currentStep.mediaType === "lottie" && currentStepLottieData ? (
+                <div className="w-full h-full flex items-center justify-center">
+                  <Lottie
+                    animationData={currentStepLottieData}
+                    loop={true}
+                    autoplay={true}
+                    className="w-full h-full max-w-xs"
+                  />
+                </div>
               ) : (
                 <Image
-                  src={fallbackImage || "/placeholder.svg"}
+                  src={currentStep.mediaSrc || fallbackImage}
                   alt={currentStep.title}
                   fill
                   className="object-cover"
