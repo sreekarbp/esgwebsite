@@ -120,12 +120,6 @@ export default function EnhancedNavbar() {
           description: "Discover our purpose and vision",
           icon: <BookOpen className="h-4 w-4" />,
         },
-        {
-          name: "Team",
-          href: "/team",
-          description: "Meet our leadership and experts",
-          icon: <Users className="h-4 w-4" />,
-        },
       ],
     },
     {
@@ -437,7 +431,7 @@ export default function EnhancedNavbar() {
               whileTap={{ scale: 0.95 }}
               className="bg-gradient-to-r from-blue-600 to-blue-400 hover:from-blue-500 hover:to-blue-300 text-white px-5 py-2 rounded-md font-medium transition-all duration-300 shadow-lg hover:shadow-blue-500/20"
             >
-              Get Started
+              login
             </motion.button>
           </div>
 
