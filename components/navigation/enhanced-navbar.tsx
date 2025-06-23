@@ -313,7 +313,7 @@ export default function EnhancedNavbar() {
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          
+          <AnimatedSapAiLogo className="h-10 w-auto" />
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-1">

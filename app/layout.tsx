@@ -32,8 +32,9 @@ export const metadata: Metadata = {
     title: "ESG Inc - Advanced AI & Enterprise Solutions",
     description: "Leading provider of SAP Enterprise Solutions, AI Analytics, and Digital Transformation services",
     siteName: "ESG Inc",
+    images: [{ url: "/images/logos/dark-theme/logo-512x512.png", width: 512, height: 512, alt: "ESG Inc Logo" }],
   },
-    generator: 'v0.dev'
+  generator: "v0.dev",
 }
 
 export default function RootLayout({
@@ -44,7 +45,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className="scroll-smooth">
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon-dark-32x32.png" sizes="any" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-dark-16x16.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-dark-32x32.png" />
+        <link rel="icon" type="image/png" sizes="48x48" href="/favicon-dark-48x48.png" />
         {/* Preload critical assets */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

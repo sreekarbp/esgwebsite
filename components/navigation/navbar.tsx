@@ -1,39 +1,80 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
+import { useTheme } from "next-themes"
+import { useEffect, useState } from "react"
 
 export default function Navbar() {
+  const { theme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) {
+    return (
+      <nav className="bg-white shadow">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <div className="h-12 w-12 bg-gray-200 rounded-full animate-pulse" /> {/* Placeholder */}
+              </div>
+              <div className="hidden md:block">
+                <div className="ml-10 flex items-baseline space-x-4">
+                  <div className="h-4 w-16 bg-gray-200 rounded animate-pulse" />
+                  <div className="h-4 w-16 bg-gray-200 rounded animate-pulse" />
+                  <div className="h-4 w-16 bg-gray-200 rounded animate-pulse" />
+                  <div className="h-4 w-16 bg-gray-200 rounded animate-pulse" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    )
+  }
+
+  const logoSrc = theme === "dark" ? "/images/logos/dark-theme/logo-256x256.png" : "/images/logos/logo-256x256.png"
+
   return (
-    <nav className="bg-white shadow">
+    <nav className="bg-white shadow dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              {/* Logo image already contains its own <a> via Next/Image */}
-              <Image src="/esg-colored-logo.png" alt="ESG Logo" width={48} height={48} className="mr-2" priority />
+              <Image
+                src={logoSrc || "/placeholder.svg"}
+                alt="ESG Logo"
+                width={48}
+                height={48}
+                className="mr-2"
+                priority
+              />
             </div>
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
                 <Link
                   href="/"
-                  className="text-gray-600 hover:bg-gray-100 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-gray-600 hover:bg-gray-100 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   Home
                 </Link>
                 <Link
                   href="/about"
-                  className="text-gray-600 hover:bg-gray-100 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-gray-600 hover:bg-gray-100 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   About
                 </Link>
                 <Link
                   href="/services"
-                  className="text-gray-600 hover:bg-gray-100 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-gray-600 hover:bg-gray-100 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   Services
                 </Link>
                 <Link
                   href="/contact"
-                  className="text-gray-600 hover:bg-gray-100 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-gray-600 hover:bg-gray-100 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   Contact
                 </Link>
@@ -80,25 +121,25 @@ export default function Navbar() {
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
           <Link
             href="/"
-            className="text-gray-600 hover:bg-gray-100 hover:text-gray-800 block px-3 py-2 rounded-md text-base font-medium"
+            className="text-gray-600 hover:bg-gray-100 hover:text-gray-800 block px-3 py-2 rounded-md text-base font-medium dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
           >
             Home
           </Link>
           <Link
             href="/about"
-            className="text-gray-600 hover:bg-gray-100 hover:text-gray-800 block px-3 py-2 rounded-md text-base font-medium"
+            className="text-gray-600 hover:bg-gray-100 hover:text-gray-800 block px-3 py-2 rounded-md text-base font-medium dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
           >
             About
           </Link>
           <Link
             href="/services"
-            className="text-gray-600 hover:bg-gray-100 hover:text-gray-800 block px-3 py-2 rounded-md text-base font-medium"
+            className="text-gray-600 hover:bg-gray-100 hover:text-gray-800 block px-3 py-2 rounded-md text-base font-medium dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
           >
             Services
           </Link>
           <Link
             href="/contact"
-            className="text-gray-600 hover:bg-gray-100 hover:text-gray-800 block px-3 py-2 rounded-md text-base font-medium"
+            className="text-gray-600 hover:bg-gray-100 hover:text-gray-800 block px-3 py-2 rounded-md text-base font-medium dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
           >
             Contact
           </Link>
